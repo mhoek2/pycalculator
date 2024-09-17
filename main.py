@@ -39,15 +39,17 @@ class Application:
         self._init_modules()
 
     def _init_modules( self ) -> None:
-        self.m_gui = Gui()
-        self.m_filestore = FileStore()
-        self.m_koppelcode = KoppelCode()
-        self.m_calculator = Calculator()
+        # Gui first, other modules depend on gui
+        self.m_gui = Gui( self )
+        self.m_filestore = FileStore( self )
+        self.m_koppelcode = KoppelCode( self )
+        self.m_calculator = Calculator( self )
 
     def _update_screen( self ) -> None:
         self.m_renderer.clearFramebuffer()
 
         # draw/blit begin
+        self.m_gui.update()
         # draw/blit end
 
         self.m_renderer.endFrame()
@@ -63,6 +65,12 @@ class Application:
         while True:
             self._handle_events()
             self._update_screen()
+
+            # update modules
+            self.m_filestore.update()
+            self.m_koppelcode.update()
+            self.m_calculator.update()
+
             self.m_clock.tick( self.m_settings.m_target_fps )
 
 # ??
