@@ -11,4 +11,5 @@ class Gui:
 		return
 
 	def callGuiMethod( self ) -> None:
-		print(".")
+		return
+		#print(".")
