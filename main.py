@@ -4,14 +4,27 @@ import pygame
 from pygame.sprite import Group
 from pygame.time import Clock
 
+# app core
 from modules.app.settings import Settings
 from modules.app.renderer import Renderer
 
-class Calculator:
+#app modules
+from modules.gui.gui import Gui
+from modules.calculator import Calculator
+from modules.filestore import FileStore
+from modules.koppelcode import KoppelCode
+
+class Application:
     """Base class for the app"""
     m_settings      : Settings
     m_clock         : Clock
     m_renderer      : Renderer
+
+    #app modules
+    m_gui           : Gui
+    m_filestore     : FileStore
+    m_koppelcode    : KoppelCode
+    m_calculator    : Calculator
 
     def __init__( self ) -> None:
         """Init game"""
@@ -22,6 +35,14 @@ class Calculator:
         # renderer
         self.m_renderer = Renderer( self )
         self.m_renderer.create_screen_instance()
+
+        self._init_modules()
+
+    def _init_modules( self ) -> None:
+        self.m_gui = Gui()
+        self.m_filestore = FileStore()
+        self.m_koppelcode = KoppelCode()
+        self.m_calculator = Calculator()
 
     def _update_screen( self ) -> None:
         self.m_renderer.clearFramebuffer()
@@ -46,7 +67,7 @@ class Calculator:
 
 # ??
 if __name__ == '__main__':
-    app = Calculator()
+    app = Application()
     app.m_renderer.updateWindow( resolution=( 400, 600 ) )
     app.m_settings.setBackgroundIcon( 'assets/app/icon.png' );
     app.m_settings.setClearColor( (0.0, 0.0, 0.0) )
