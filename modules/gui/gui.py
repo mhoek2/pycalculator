@@ -1,4 +1,5 @@
 class Gui:
+	"""Containing methods for various use cases of the application"""
 	def __init__( self, context ) -> None:
 		self.m_context = context
 		self.m_settings = context.m_settings

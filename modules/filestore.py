@@ -1,4 +1,5 @@
 class FileStore:
+    """Contains methods to store files containing notes"""
     def __init__( self, context ) -> None:
         self.m_context = context
         self.m_settings = context.m_settings
