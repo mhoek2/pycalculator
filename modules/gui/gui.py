@@ -45,14 +45,49 @@ class Gui:
 
     def draw( self ) -> None:
         """Draw GUI and the active tab content"""
+        # text input fields
+        self.text_input_group.draw( self.m_renderer.m_screen )
+
+        # buttons
+        for button in self.button_group:
+            button.draw( self.m_renderer.m_screen )
+
         self.drawTab()
 
     #
     # tabbing system
     #
+    def drawTabs( self ) -> None:
+        position_y = 20
+        position_x = 37
+
+        tab_notes = Button((position_x, position_y), (75, 50), 
+                           (220, 220, 220), (255, 0, 0), self.openNotesTab, 'Notities')
+        self.addButton( tab_notes )
+        position_x += 110
+ 
+        tab_calculator = Button((position_x, position_y), (130, 50), 
+                                (220, 220, 220), (255, 0, 0), self.openCalculatorTab, 'Rekenmachine')
+        self.addButton( tab_calculator )
+        position_x += 132
+
+        tab_koppelcode = Button((position_x, position_y), (120, 50), 
+                                (220, 220, 220), (255, 0, 0), self.openKoppelcodeTab, 'koppelcode')
+        self.addButton( tab_koppelcode )    
+  
+    def openNotesTab( self ) -> None:
+        self.openTab( self.TAB_NOTES )
+
+    def openCalculatorTab( self ) -> None:
+        self.openTab( self.TAB_CALCULATOR )
+
+    def openKoppelcodeTab( self ) -> None:
+        self.openTab( self.TAB_KOPPELCODE )
+
     def clearTabContent( self ) -> None:
         self.text_input_group.empty()
         self.button_group.clear()
+        self.drawTabs()
 
     def openTab( self, index ) -> None:
         """Handle switching between tabs"""
@@ -142,13 +177,6 @@ class Gui:
 
     def _drawKoppelcode( self ) -> None:
         """Update method every frame"""
-        # text input fields
-        self.text_input_group.draw( self.m_renderer.m_screen )
-
-        # buttons
-        for button in self.button_group:
-            button.draw( self.m_renderer.m_screen )
-
         text = self.m_renderer.m_font_48.render( f"{self.koppel_code_text}", False, (255, 255, 255))
         
         self.m_renderer.m_screen.blit( text, ( 150, 50 ) )
@@ -171,12 +199,6 @@ class Gui:
 
     def _drawNotes( self ) -> None:
         """Update method every frame"""
-        # text input fields
-        self.text_input_group.draw( self.m_renderer.m_screen )
-
-        # buttons
-        for button in self.button_group:
-            button.draw( self.m_renderer.m_screen )
 
         return
 
