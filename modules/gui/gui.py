@@ -221,7 +221,7 @@ class Gui:
 
         # clear button
         position_y = positon_y_start + (total_rows * 60)
-        position_x = positon_x_start + (1 * 60)
+        position_x = positon_x_start + (1 * 50)
         clear = Button((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.clearEquation, "CE",)
         self.addButton( clear )
 
