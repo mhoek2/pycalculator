@@ -157,6 +157,9 @@ class Gui:
     def addToEquation( self, symbol ) -> None:
         self.equation += symbol
 
+    def clearEquation( self ) -> None:
+        self.equation = ""
+
     def calculate( self ) -> None:
         print( f"calculate: {self.m_context.m_calculator.parse_arithmetic_string(self.equation)}")
         return
@@ -199,11 +202,29 @@ class Gui:
             button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
             self.addButton( button )         
 
+        # draw extra
+        extra = ["0", ".", ","]
+        for i in range(0, len( extra ) ):
+            position_y = positon_y_start + (total_rows * 60)
+            position_x = positon_x_start + (i * 50)
+
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{extra[i]}", f"{extra[i]}")
+            self.addButton( button )    
+
+        total_rows += 1
+
         # calculate button
         position_y = positon_y_start + (total_rows * 60)
         position_x = positon_x_start
-        calculate = Button((position_x + 50, position_y), (140, 50), (220, 220, 220), (255, 0, 0), self.calculate, "=",)
+        calculate = Button((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.calculate, "=",)
         self.addButton( calculate )
+
+        # clear button
+        position_y = positon_y_start + (total_rows * 60)
+        position_x = positon_x_start + (1 * 60)
+        clear = Button((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.clearEquation, "CE",)
+        self.addButton( clear )
+
         return
 
     def _drawCalculator( self ) -> None:
