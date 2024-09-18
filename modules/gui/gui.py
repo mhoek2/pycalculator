@@ -9,7 +9,7 @@ class Gui:
 
     # Example on how to call functions from other modules:
     # self.m_context.m_gui.functionName()
-    # self.m_context.m_filestore.functionName()
+    # self.m_context.m_notes.functionName()
     # self.m_context.m_calculator.functionName()
     # self.m_context.m_koppelcode.functionName()
 
