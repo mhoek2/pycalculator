@@ -91,6 +91,6 @@ if __name__ == '__main__':
     app.m_settings.setBackgroundIcon( 'assets/app/icon.png' );
     app.m_settings.setClearColor( (152.0, 199.0, 243.0) )
 
-    app.m_gui.openTab( app.m_gui.TAB_KOPPELCODE )
+    app.m_gui.openTab( app.m_gui.TAB_CALCULATOR )
     app.run()
     

@@ -1,5 +1,5 @@
 from modules.gui.textInput import TextInput
-from modules.gui.button import Button
+from modules.gui.button import Button, CalculatorButton
 
 import pygame
 
@@ -154,12 +154,65 @@ class Gui:
     #
     # calculator
     #
+    def addToEquation( self, symbol ) -> None:
+        self.equation += symbol
+
+    def calculate( self ) -> None:
+        print("calculate")
+        return
+
     def _initCalculator( self ) -> None:
         """This gets executed when tab opens"""
+
+        self.equation = ""
+
+        positon_x_start = 40
+        positon_y_start = 200
+
+        row = 0
+        column = 0
+        total_columns = 0;
+        total_rows = 0;
+
+        # draw numeric buttons
+        for i in range(1,10):
+            position_y = positon_y_start + (row * 60)
+            position_x = positon_x_start + (column * 50)
+
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{i}", f"{i}")
+            self.addButton( button )
+
+            column += 1
+            
+            if i % 3 == 0:
+                row += 1
+                total_columns += 1
+                total_rows += 1
+                column = 0
+        
+        # draw modifiers
+        button_letters = ["+", "-", "x", ":"]
+        modifiers = ["+", "-", "*", "/"]
+        for i in range(0, len( modifiers ) ):
+            position_y = positon_y_start + (i * 60)
+            position_x = positon_x_start + (total_columns * 50)
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
+            self.addButton( button )         
+
+        # calculate button
+        position_y = positon_y_start + (total_rows * 60)
+        position_x = positon_x_start
+        calculate = Button((position_x + 50, position_y), (140, 50), (220, 220, 220), (255, 0, 0), self.calculate, "=",)
+        self.addButton( calculate )
         return
 
     def _drawCalculator( self ) -> None:
         """Update method every frame"""
+
+        # draw equation
+        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (255, 255, 255))
+        self.m_renderer.m_screen.blit( text, ( 150, 50 ) )
+
         return
 
     #

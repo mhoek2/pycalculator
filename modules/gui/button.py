@@ -40,6 +40,15 @@ class Button:
         if self.func:
             return self.func(*args)
 
+class CalculatorButton(Button):
+    def __init__(self, position, size, clr=[100, 100, 100], cngclr=None, func=None, symbol='', text='', font="Segoe Print", font_size=16, font_clr=[0, 0, 0]):
+        super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
+        self.symbol = symbol
+
+    def call_back( self ):
+        if self.func:
+            return self.func( self.symbol )
+
 class text:
     def __init__(self, msg, position, clr=[100, 100, 100], font="Segoe Print", font_size=15, mid=False):
         self.position = position
