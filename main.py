@@ -11,7 +11,7 @@ from modules.app.renderer import Renderer
 # app specific modules
 from modules.gui.gui import Gui
 from modules.calculator import Calculator
-from modules.filestore import FileStore
+from modules.notes import Notes
 from modules.koppelcode import KoppelCode
 
 class Application:
@@ -23,7 +23,7 @@ class Application:
 
     # app specific modules
     m_gui           : Gui
-    m_filestore     : FileStore
+    m_notes         : Notes
     m_koppelcode    : KoppelCode
     m_calculator    : Calculator
 
@@ -42,7 +42,7 @@ class Application:
     def _init_modules( self ) -> None:
         """Initialize specific application modules"""
         self.m_gui = Gui( self )
-        self.m_filestore = FileStore( self )
+        self.m_notes = Notes( self )
         self.m_koppelcode = KoppelCode( self )
         self.m_calculator = Calculator( self )
 
@@ -69,7 +69,7 @@ class Application:
             self._update_screen()
 
             # update modules
-            self.m_filestore.update()
+            self.m_notes.update()
             self.m_koppelcode.update()
             self.m_calculator.update()
 

@@ -1,6 +1,6 @@
 from modules.app.files import FileHandler
 
-class FileStore:
+class Notes:
     """Contains methods to store files containing notes"""
     def __init__( self, context ) -> None:
         self.m_context = context
@@ -8,13 +8,13 @@ class FileStore:
         self.m_renderer = context.m_renderer
         self.m_gui = context.m_gui
         
-        print("FileStore init")
+        print("Notes init")
         self.save("teest")
 
 
     # Example on how to call functions from other modules:
     # self.m_context.m_gui.functionName()
-    # self.m_context.m_filestore.functionName()
+    # self.m_context.m_notes.functionName()
     # self.m_context.m_calculator.functionName()
     # self.m_context.m_koppelcode.functionName()
 
