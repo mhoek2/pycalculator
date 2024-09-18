@@ -158,7 +158,7 @@ class Gui:
         self.equation += symbol
 
     def calculate( self ) -> None:
-        print("calculate")
+        print( f"calculate: {self.equation}")
         return
 
     def _initCalculator( self ) -> None:
