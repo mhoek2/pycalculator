@@ -16,6 +16,7 @@ class TextInput( Sprite ):
 
     def reset( self ) -> None:
         self.text = ""
+        self.render()
 
     def render( self ):
         t_surf = self.font.render(self.text, True, self.color, self.backcolor)

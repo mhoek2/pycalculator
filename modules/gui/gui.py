@@ -20,6 +20,12 @@ class Gui:
 
         self.tab_index = self.TAB_NOTES
 
+        # koppelcode
+        self.koppel_code_text = ""
+
+        # note
+        self.note = None            # text input field
+
         print("Gui init")
 
     # Example on how to call functions from other modules:
@@ -124,26 +130,42 @@ class Gui:
     #
     # koppelcode
     #
+    def geKoppelCode( self ) -> None:
+        self.koppel_code_text = self.m_context.m_koppelcode.get_random_code( 4 )
+
     def _initKoppelcode( self ) -> None:
         """This gets executed when tab opens"""
+
+        button = Button((200, 150), (225, 50), (220, 220, 220), (255, 0, 0), self.geKoppelCode, 'Genereer koppel code')
+        self.addButton( button )
         return
 
     def _drawKoppelcode( self ) -> None:
         """Update method every frame"""
+        # text input fields
+        self.text_input_group.draw( self.m_renderer.m_screen )
+
+        # buttons
+        for button in self.button_group:
+            button.draw( self.m_renderer.m_screen )
+
+        text = self.m_renderer.m_font_48.render( f"{self.koppel_code_text}", False, (255, 255, 255))
+        
+        self.m_renderer.m_screen.blit( text, ( 150, 50 ) )
+
+
         return
 
     #
     # notes
     #
-    def fn2( self ) -> None:
-        print("button")
 
     def _initNotes( self ) -> None:
         """This gets executed when tab opens"""
-        note = TextInput(10, 50, 380, self.m_renderer.m_font_48)
-        self.addTextInput( note )
+        self.note = TextInput(10, 50, 380, self.m_renderer.m_font_48)
+        self.addTextInput( self.note )
 
-        button = Button((200, 150), (100, 50), (220, 220, 220), (255, 0, 0), self.fn2, 'Opslaan')
+        button = Button((200, 150), (100, 50), (220, 220, 220), (255, 0, 0), self.saveNote, 'Opslaan')
         self.addButton( button )
         
 
@@ -170,5 +192,6 @@ class Gui:
         """Call to Note module to save current text in input field"""
         self.m_context.m_notes.save( self.getNote() )
         self.clearNote()
-	def callGuiMethod( self ) -> None:
-		print(".")
+
+    def callGuiMethod( self ) -> None:
+	    print(".")
