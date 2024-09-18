@@ -1,4 +1,5 @@
 from modules.app.files import FileHandler
+from datetime import datetime
 
 class Notes:
     """Contains methods to store files containing notes"""
@@ -9,8 +10,6 @@ class Notes:
         self.m_gui = context.m_gui
         
         print("Notes init")
-        self.save("teest")
-
 
     # Example on how to call functions from other modules:
     # self.m_context.m_gui.functionName()
@@ -19,13 +18,17 @@ class Notes:
     # self.m_context.m_koppelcode.functionName()
 
     def update( self ) -> None:
-        self.m_gui.callGuiMethod()
+        #self.m_gui.callGuiMethod()
         return
 
     def save( self, data ) -> bool:
         """Store note"""
 
-        self.file = FileHandler( "test.txt", True )
+        this_datetime = datetime.now()
+
+        filename = this_datetime.strftime("note_%d_%m_%Y-%H_%M")
+
+        self.file = FileHandler( f"notes/{filename}.txt", True )
 
         if self.file.setContent( data ) :
            return True

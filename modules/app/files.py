@@ -44,7 +44,10 @@ class FileHandler:
 
         # create file
         if self.create and not self.getPath():
-            print("here")
+            print( f"create: '{self.full_path}' is invalid!")
+            file = open(self.full_path, 'w')
+            file.close()
+
 
         self.filename = split_filename[0]
         self.extension = split_filename[1]
