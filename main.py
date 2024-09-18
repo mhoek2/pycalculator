@@ -51,16 +51,25 @@ class Application:
         self.m_renderer.clearFramebuffer()
 
         # draw/blit begin
-        self.m_gui.update()
+        self.m_gui.draw()
         # draw/blit end
 
         self.m_renderer.endFrame()
 
+    def _handle_key_down( self, event ) -> None:
+        """Handle key-down"""
+        return
+
     def _handle_events( self ) -> None:
         """Handle input and state events"""
-        for event in pygame.event.get():
+        event_list = pygame.event.get()
+        for event in event_list:
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                self._handle_key_down( event )
+
+        self.m_gui.event_handler( event_list )
 
     def run( self ) -> None:
         """main loop"""
@@ -80,6 +89,8 @@ if __name__ == '__main__':
     app = Application()
     app.m_renderer.updateWindow( resolution=( 400, 600 ) )
     app.m_settings.setBackgroundIcon( 'assets/app/icon.png' );
-    app.m_settings.setClearColor( (0.0, 0.0, 0.0) )
+    app.m_settings.setClearColor( (152.0, 199.0, 243.0) )
 
+    app.m_gui.openTab( app.m_gui.TAB_KOPPELCODE )
     app.run()
+    

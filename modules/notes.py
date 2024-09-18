@@ -1,3 +1,6 @@
+from modules.app.files import FileHandler
+from datetime import datetime
+
 class Notes:
     """Contains methods to store notes"""
     def __init__( self, context ) -> None:
@@ -17,3 +20,17 @@ class Notes:
     def update( self ) -> None:
         #self.m_gui.callGuiMethod()
         return
+
+    def save( self, data ) -> bool:
+        """Store note"""
+
+        this_datetime = datetime.now()
+
+        filename = this_datetime.strftime("note_%d_%m_%Y-%H_%M")
+
+        self.file = FileHandler( f"notes/{filename}.txt", True )
+
+        if self.file.setContent( data ) :
+           return True
+        else:
+           return False

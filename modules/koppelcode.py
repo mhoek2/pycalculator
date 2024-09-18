@@ -21,8 +21,6 @@ class KoppelCode:
     # self.m_context.m_koppelcode.functionName()
 
     def update( self ) -> None:
-        random_code = self.get_random_code(4)
-        print(random_code)
         return
 
     def get_random_code(self, num_letters):
