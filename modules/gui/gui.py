@@ -158,7 +158,7 @@ class Gui:
         self.equation += symbol
 
     def calculate( self ) -> None:
-        print( f"calculate: {self.equation}")
+        print( f"calculate: {self.m_context.m_calculator.parse_arithmetic_string(self.equation)}")
         return
 
     def _initCalculator( self ) -> None:
