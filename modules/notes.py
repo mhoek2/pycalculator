@@ -15,5 +15,5 @@ class Notes:
     # self.m_context.m_koppelcode.functionName()
 
     def update( self ) -> None:
-        self.m_gui.callGuiMethod()
+        #self.m_gui.callGuiMethod()
         return
