@@ -26,7 +26,7 @@ class Notes:
 
         this_datetime = datetime.now()
 
-        filename = this_datetime.strftime("note_%d_%m_%Y-%H_%M")
+        filename = this_datetime.strftime("note_%d_%m_%Y-%H_%M_%S")
 
         self.file = FileHandler( f"notes/{filename}.txt", True )
 

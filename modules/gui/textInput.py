@@ -5,8 +5,8 @@ class TextInput( Sprite ):
     """Text input"""
     def __init__( self, x, y, w, font ):
         super().__init__()
-        self.color = (255, 255, 255)
-        self.backcolor = None
+        self.color = (0, 0, 0)
+        self.backcolor = (255, 255, 255)
         self.pos = (x, y) 
         self.width = w
         self.font = font

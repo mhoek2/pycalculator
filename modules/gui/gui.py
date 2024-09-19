@@ -310,10 +310,10 @@ class Gui:
 
     def _initNotes( self ) -> None:
         """This gets executed when tab opens"""
-        self.note = TextInput(10, 50, 380, self.m_renderer.m_font_48)
+        self.note = TextInput(25, 75, 350, self.m_renderer.m_font_48)
         self.addTextInput( self.note )
 
-        button = Button((200, 150), (100, 50), (220, 220, 220), (255, 0, 0), self.saveNote, 'Opslaan')
+        button = Button((200, 200), (100, 50), (220, 220, 220), (255, 0, 0), self.saveNote, 'Opslaan')
         self.addButton( button )
         
 
