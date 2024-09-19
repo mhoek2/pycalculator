@@ -161,21 +161,6 @@ class Gui:
         elif self.tab_index == self.TAB_GULDENS:
             self._drawGuildersConversion()
 
-
-    #
-    # debug code
-    #
-    def _handle_key_down( self, event ) -> None:
-        """DEBUG: Handle key-down"""
-        if event.key == pygame.K_c:
-            self.openTab( self.TAB_CALCULATOR )
-
-        elif event.key == pygame.K_n:
-            self.openTab( self.TAB_NOTES )
-
-        elif event.key == pygame.K_k:
-            self.openTab( self.TAB_KOPPELCODE )
-
     def button_group_event_handler( self, event ) -> None:
         """Handle event states for mousedown on buttons"""
         if event.button == 1:
@@ -186,11 +171,7 @@ class Gui:
 
     def event_handler( self, event_list ) -> None:
         for event in event_list:
-            # used for debug code
-            if event.type == pygame.KEYDOWN:
-                self._handle_key_down( event )
-
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 # handle event for all buttons
                 self.button_group_event_handler( event )
 
