@@ -17,6 +17,7 @@ class Gui:
         self.TAB_CALCULATOR     = 0
         self.TAB_NOTES          = 1
         self.TAB_KOPPELCODE     = 2
+        self.TAB_GULDENS        = 3
 
         self.tab_index = self.TAB_NOTES
 
@@ -90,7 +91,12 @@ class Gui:
 
         tab_koppelcode = Button((position_x, position_y), (120, 50), 
                                 (220, 220, 220), (255, 0, 0), self.openKoppelcodeTab, 'koppelcode')
-        self.addButton( tab_koppelcode )    
+        self.addButton( tab_koppelcode )
+        position_x += 90
+        
+        tab_guldens = Button((position_x, position_y), (64, 50), 
+                                (220, 220, 220), (255, 0, 0), self.openGuldensTab, 'ƒ ↔ €')
+        self.addButton( tab_guldens )
   
     def openNotesTab( self ) -> None:
         self.openTab( self.TAB_NOTES )
@@ -100,6 +106,9 @@ class Gui:
 
     def openKoppelcodeTab( self ) -> None:
         self.openTab( self.TAB_KOPPELCODE )
+        
+    def openGuldensTab( self ) -> None:
+        self.openTab( self.TAB_GULDENS )
 
     def clearTabContent( self ) -> None:
         self.text_input_group.empty()
@@ -122,6 +131,9 @@ class Gui:
 
         elif self.tab_index == self.TAB_KOPPELCODE:
             self._initKoppelcode()
+        
+        elif self.tab_index == self.TAB_GULDENS:
+            self._initGuldens()
 
     def drawTab( self ) -> None:
         """Call to current open tab drawing method"""
@@ -133,6 +145,9 @@ class Gui:
 
         elif self.tab_index == self.TAB_KOPPELCODE:
             self._drawKoppelcode()
+        
+        elif self.tab_index == self.TAB_GULDENS:
+            self._drawGuildersConversion()
 
 
     #
@@ -343,6 +358,89 @@ class Gui:
         """Call to Note module to save current text in input field"""
         self.m_context.m_notes.save( self.getNote() )
         self.clearNote()
+    
+    #
+    # guilders euros conversion
+    #
+    def guilders_to_euros( self ) -> None:
+        print( f"{self.equation} euro’s to guilders: {self.m_context.m_calculator.euros_guilders_conversion(self.equation)}")
+        return
+    
+    def euros_to_guilders( self ) -> None:
+        print( f"{self.equation} guilders to euro’s: {self.m_context.m_calculator.euros_guilders_conversion(self.equation, False)}")
+        return
+
+    def _initGuldens( self ) -> None:
+        """This gets executed when tab opens"""
+
+        self.equation = ""
+
+        positon_x_start = 40
+        positon_y_start = 200
+
+        row = 0
+        column = 0
+        total_columns = 0
+        total_rows = 0
+
+        # draw numeric buttons
+        for i in range(1,10):
+            position_y = positon_y_start + (row * 60)
+            position_x = positon_x_start + (column * 50)
+
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{i}", f"{i}")
+            self.addButton( button )
+
+            column += 1
+            
+            if i % 3 == 0:
+                row += 1
+                total_columns += 1
+                total_rows += 1
+                column = 0
+        
+        # # draw modifiers
+        # button_letters = ["+", "-", "x", ":"]
+        # modifiers = ["+", "-", "*", "/"]
+        # for i in range(0, len( modifiers ) ):
+        #     position_y = positon_y_start + (i * 60)
+        #     position_x = positon_x_start + (total_columns * 50)
+        #     button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
+        #     self.addButton( button )         
+
+        # draw extra
+        extra = ["0", ".", ","]
+        for i in range(0, len( extra ) ):
+            position_y = positon_y_start + (total_rows * 60)
+            position_x = positon_x_start + (i * 50)
+
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{extra[i]}", f"{extra[i]}")
+            self.addButton( button )    
+
+        total_rows += 1
+
+        # guilders button
+        position_y = positon_y_start + (total_rows * 60)
+        position_x = positon_x_start
+        guilders = Button((position_x, position_y), (70, 50), (220, 220, 220), (255, 0, 0), self.euros_to_guilders, "€ → ƒ",)
+        self.addButton( guilders )
+
+        # euros button
+        position_y = positon_y_start + (total_rows * 60)
+        position_x = positon_x_start + (1 * 80)
+        euros = Button((position_x, position_y), (70, 50), (220, 220, 220), (255, 0, 0), self.guilders_to_euros, "ƒ → €",)
+        self.addButton( euros )
+
+        return
+
+    def _drawGuildersConversion( self ) -> None:
+        """Update method every frame"""
+
+        # draw equation
+        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (255, 255, 255))
+        self.m_renderer.m_screen.blit( text, ( 150, 50 ) )
+
+        return
 
     def callGuiMethod( self ) -> None:
 	    print(".")
