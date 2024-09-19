@@ -1,12 +1,13 @@
 import pygame
 
 class Button:
-    def __init__(self, position, size, clr=[100, 100, 100], cngclr=None, func=None, text='', font="Segoe Print", font_size=16, font_clr=[0, 0, 0]):
+    def __init__(self, position, size, clr=[100, 100, 100], cngclr=None, func=None, text='', font="Segoe Print", font_size=16, font_clr=[0, 0, 0], font_override=None, active=None):
         self.clr    = clr
         self.size   = size
         self.func   = func
         self.surf   = pygame.Surface(size)
         self.rect   = self.surf.get_rect(center=position)
+        self.active = active
 
         if cngclr:
             self.cngclr = cngclr
@@ -16,8 +17,11 @@ class Button:
         if len(clr) == 4:
             self.surf.set_alpha(clr[3])
 
+        if font_override:
+            self.font = font_override
+        else:
+            self.font = pygame.font.SysFont(font, font_size)
 
-        self.font = pygame.font.SysFont(font, font_size)
         self.txt = text
         self.font_clr = font_clr
         self.txt_surf = self.font.render(self.txt, 1, self.font_clr)
@@ -25,6 +29,9 @@ class Button:
 
     def draw(self, screen):
         self.mouseover()
+
+        if self.active:
+            self.curclr = self.cngclr
 
         self.surf.fill(self.curclr)
         self.surf.blit(self.txt_surf, self.txt_rect)
@@ -41,12 +48,12 @@ class Button:
             return self.func(*args)
 
 class CalculatorButton(Button):
-    def __init__(self, position, size, clr=[100, 100, 100], cngclr=None, func=None, symbol='', text='', font="Segoe Print", font_size=16, font_clr=[0, 0, 0]):
+    def __init__(self, position, size, clr=[100, 100, 100], cngclr=None, func=None, symbol='', text='', font="Segoe Print", font_size=16, font_clr=[0, 0, 0], font_override=None, active=None):
        
         # use topleft
         position = ( ( position[0] + size[0] / 2 ), ( position[1] + size[1] / 2 ) )
 
-        super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
+        super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr, font_override=font_override, active=active)
         self.symbol = symbol
 
     def call_back( self ):

@@ -77,25 +77,37 @@ class Gui:
     #
     def drawTabs( self ) -> None:
         position_y = 20
-        position_x = 37
+        position_x = 65
 
-        tab_notes = Button((position_x, position_y), (75, 50), 
-                           (220, 220, 220), (255, 0, 0), self.openNotesTab, 'Notities')
+        # Notes tab
+        tab_notes = Button((position_x, position_y), (60, 50), 
+                           (220, 220, 220), (180, 180, 180), self.openNotesTab, 
+                           'Notities', font_override=self.m_renderer.m_font_16,
+                           active=self.tab_index == self.TAB_NOTES )
         self.addButton( tab_notes )
-        position_x += 110
- 
-        tab_calculator = Button((position_x, position_y), (130, 50), 
-                                (220, 220, 220), (255, 0, 0), self.openCalculatorTab, 'Rekenmachine')
-        self.addButton( tab_calculator )
-        position_x += 132
-
-        tab_koppelcode = Button((position_x, position_y), (120, 50), 
-                                (220, 220, 220), (255, 0, 0), self.openKoppelcodeTab, 'koppelcode')
-        self.addButton( tab_koppelcode )
         position_x += 90
+ 
+        # Calculator Tab
+        tab_calculator = Button((position_x, position_y), (110, 50), 
+                                (220, 220, 220), (180, 180, 180), self.openCalculatorTab, 
+                                'Rekenmachine', font_override=self.m_renderer.m_font_16, 
+                                 active=self.tab_index == self.TAB_CALCULATOR )
+        self.addButton( tab_calculator )
+        position_x += 100
+
+        # koppelcode tab
+        tab_koppelcode = Button((position_x, position_y), (80, 50), 
+                                (220, 220, 220), (180, 180, 180), self.openKoppelcodeTab, 
+                                'Koppelcode', font_override=self.m_renderer.m_font_16, 
+                                 active=self.tab_index == self.TAB_KOPPELCODE )
+        self.addButton( tab_koppelcode )
+        position_x += 77
         
+        ## Euro to guldens tab
         tab_guldens = Button((position_x, position_y), (64, 50), 
-                                (220, 220, 220), (255, 0, 0), self.openGuldensTab, 'ƒ ↔ €')
+                                (220, 220, 220), (180, 180, 180), self.openGuldensTab, 
+                                'ƒ ↔ €', font_override=self.m_renderer.m_font_16, 
+                                 active=self.tab_index == self.TAB_GULDENS )
         self.addButton( tab_guldens )
   
     def openNotesTab( self ) -> None:
@@ -118,8 +130,8 @@ class Gui:
     def openTab( self, index ) -> None:
         """Handle switching between tabs"""
         if self.tab_index != index:
-            self.clearTabContent()
             self.tab_index = index
+            self.clearTabContent()
         else:
             return
 
