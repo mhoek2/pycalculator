@@ -173,24 +173,33 @@ class Gui:
     #
     # calculator
     #
-    def addToNumberEquation( self, symbol ) -> None:
+    def addNumberToEquation( self, symbol ) -> None:
+        """Add number 1-9 to the equation"""
         self.equation += symbol
 
-    def addToSymbolEquation( self, symbol ) -> None:
+    def addSymbolToEquation( self, symbol ) -> None:
+        """Add a modifier or '.', ',' symbol to te equation
+        Also prevent starting with zero digit"""
         if len( self.equation ) > 0:
+            # check for modifiers
             if self.equation[-1] in self.modifiers:
                 return
-            if self.equation[-1] in self.extra:
+
+            # check for '.', ',', skip '0'
+            if self.equation[-1] in self.extra[1:]:
                 return
         else:
+            # none are allowed at the start of the equation
             return
 
         self.equation += symbol
 
     def clearEquation( self ) -> None:
+        """Reset the equation to be empty string"""
         self.equation = ""
 
     def calculate( self ) -> None:
+        """Ask the calculator module to evaluate the outcome of the equation"""
         print( f"calculate: {self.m_context.m_calculator.parse_arithmetic_string(self.equation)}")
         return
 
@@ -226,7 +235,7 @@ class Gui:
             position_y = positon_y_start + (row * button_margin_y)
             position_x = positon_x_start + (column * button_margin_x)
 
-            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addToNumberEquation, f"{i}", f"{i}")
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{i}", f"{i}")
             self.addButton( button )
 
             column += 1
@@ -241,7 +250,7 @@ class Gui:
         for i in range(0, len( self.modifiers ) ):
             position_y = positon_y_start + (i * button_margin_y)
             position_x = positon_x_start + (total_columns * button_margin_x)
-            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addToSymbolEquation, f"{self.modifiers[i]}", f"{self.modifier_letters[i]}")
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addSymbolToEquation, f"{self.modifiers[i]}", f"{self.modifier_letters[i]}")
             self.addButton( button )         
 
         # draw extra
@@ -249,7 +258,7 @@ class Gui:
             position_y = positon_y_start + (total_rows * button_margin_y)
             position_x = positon_x_start + (i * button_margin_x)
 
-            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addToSymbolEquation, f"{self.extra[i]}", f"{self.extra[i]}")
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addSymbolToEquation, f"{self.extra[i]}", f"{self.extra[i]}")
             self.addButton( button )    
 
         total_rows += 1
