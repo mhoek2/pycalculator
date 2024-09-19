@@ -10,14 +10,16 @@ class Settings:
     m_resolution                : Tuple
     m_window_flags              : int
     m_clear_color               : pygame.Color
+    m_background_image_path     : str
 
     def __init__( self ) -> None:
         self.m_window_title             = "Calculator"
         self.m_target_fps               = 60
         self.m_icon                     = False
-        self.m_resolution               = ( 800, 600 )
+        self.m_resolution               = ( 400, 600 )
         self.m_window_flags             = 0
         self.m_clear_color              = ( 0, 0, 0 )
+        self.m_background_image_path    = "assets/app/background.png"
 
     def setBackgroundIcon( self, path ) -> None:
         """Icon for the appplication"""

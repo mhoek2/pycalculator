@@ -7,6 +7,7 @@ from pygame.font import Font
 class Renderer:
     """Handle rendering related math and methods"""
     m_screen            : pygame.Surface
+    m_screen_rect       : pygame.Rect
     m_font_16           : Font
     m_font_48           : Font
 
@@ -21,6 +22,8 @@ class Renderer:
     def create_screen_instance( self ) -> None:
         """Set up screen instance, resolution, title etc"""
         self.updateWindow( self.m_settings.m_resolution )
+        self.m_screen_rect = self.m_screen.get_rect()
+
         pygame.display.set_caption( self.m_settings.m_window_title )
 
     def updateWindow( self, resolution : Tuple = False, flags : int = False ):
@@ -34,6 +37,7 @@ class Renderer:
            self.m_settings.m_resolution, 
            self.m_settings.m_window_flags
         )
+        self.m_screen_rect = self.m_screen.get_rect()
 
     def clearFramebuffer( self ) -> None:
         """Clear framebuffer for current swapchain image"""

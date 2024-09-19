@@ -87,7 +87,6 @@ class Application:
 # ??
 if __name__ == '__main__':
     app = Application()
-    app.m_renderer.updateWindow( resolution=( 400, 600 ) )
     app.m_settings.setBackgroundIcon( 'assets/app/icon.png' );
     app.m_settings.setClearColor( (152.0, 199.0, 243.0) )
 

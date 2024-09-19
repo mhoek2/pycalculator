@@ -26,6 +26,9 @@ class Gui:
         # note
         self.note = None            # text input field
 
+        # background
+        self.loadBackground()
+
         print("Gui init")
 
     # Example on how to call functions from other modules:
@@ -43,8 +46,22 @@ class Gui:
     def addButton( self, object ) -> None:
         self.button_group.append( object )
 
+    #
+    # background
+    #
+    def loadBackground( self ) -> None:
+       self.m_background = pygame.image.load( self.m_settings.m_background_image_path )
+       self.m_background = pygame.transform.scale(  self.m_background, self.m_settings.m_resolution )
+       self.m_background_rect = self.m_background.get_rect()
+       self.m_background_rect.topleft = self.m_renderer.m_screen_rect.topleft
+
+    def drawBackground( self ) -> None:
+         self.m_renderer.m_screen.blit( self.m_background, self.m_background_rect )
+
     def draw( self ) -> None:
         """Draw GUI and the active tab content"""
+        self.drawBackground()
+
         # text input fields
         self.text_input_group.draw( self.m_renderer.m_screen )
 
