@@ -227,13 +227,15 @@ class Gui:
 
     def calculate( self ) -> None:
         """Ask the calculator module to evaluate the outcome of the equation"""
-        print( f"calculate: {self.m_context.m_calculator.parse_arithmetic_string(self.equation)}")
+        self.result = self.m_context.m_calculator.parse_equation_string(self.equation)
+        print( f"calculate: {self.result}")   
         return
 
     def _initCalculator( self ) -> None:
         """This gets executed when tab opens"""
 
         self.equation = ""
+        self.result = ""
 
         row = 0
         column = 0
@@ -254,7 +256,7 @@ class Gui:
         keypad_center = ( button_columns * button_margin_x ) / 2
 
         positon_x_start = ( self.m_renderer.m_screen_rect.width / 2 ) - keypad_center
-        positon_y_start = 200
+        positon_y_start = 250
 
 
         # draw numeric buttons
@@ -314,7 +316,10 @@ class Gui:
 
 
         text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (0, 0, 0))
-        self.m_renderer.m_screen.blit( text, ( 150, 85 ) )
+        self.m_renderer.m_screen.blit( text, ( 40, 85 ) )
+
+        text = self.m_renderer.m_font_48.render( f"{self.result}", False, (0, 0, 0))
+        self.m_renderer.m_screen.blit( text, ( 40, 150 ) )
 
         return
 
