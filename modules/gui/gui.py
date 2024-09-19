@@ -111,6 +111,8 @@ class Gui:
         if self.tab_index != index:
             self.clearTabContent()
             self.tab_index = index
+        else:
+            return
 
         if self.tab_index == self.TAB_CALCULATOR:
             self._initCalculator()
@@ -186,20 +188,31 @@ class Gui:
 
         self.equation = ""
 
-        positon_x_start = 40
-        positon_y_start = 200
-
         row = 0
         column = 0
         total_columns = 0;
         total_rows = 0;
 
+        button_width = 60
+        button_height = 60
+        button_margin_x = button_width + 10
+        button_margin_y = button_height + 10
+
+
+        button_columns = 4
+
+        keypad_center = ( button_columns * button_margin_x ) / 2
+
+        positon_x_start = ( self.m_renderer.m_screen_rect.width / 2 ) - keypad_center
+        positon_y_start = 200
+
+
         # draw numeric buttons
         for i in range(1,10):
-            position_y = positon_y_start + (row * 60)
-            position_x = positon_x_start + (column * 50)
+            position_y = positon_y_start + (row * button_margin_y)
+            position_x = positon_x_start + (column * button_margin_x)
 
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{i}", f"{i}")
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{i}", f"{i}")
             self.addButton( button )
 
             column += 1
@@ -214,32 +227,34 @@ class Gui:
         button_letters = ["+", "-", "x", ":"]
         modifiers = ["+", "-", "*", "/"]
         for i in range(0, len( modifiers ) ):
-            position_y = positon_y_start + (i * 60)
-            position_x = positon_x_start + (total_columns * 50)
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
+            position_y = positon_y_start + (i * button_margin_y)
+            position_x = positon_x_start + (total_columns * button_margin_x)
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
             self.addButton( button )         
 
         # draw extra
         extra = ["0", ".", ","]
         for i in range(0, len( extra ) ):
-            position_y = positon_y_start + (total_rows * 60)
-            position_x = positon_x_start + (i * 50)
+            position_y = positon_y_start + (total_rows * button_margin_y)
+            position_x = positon_x_start + (i * button_margin_x)
 
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{extra[i]}", f"{extra[i]}")
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{extra[i]}", f"{extra[i]}")
             self.addButton( button )    
 
         total_rows += 1
 
         # calculate button
-        position_y = positon_y_start + (total_rows * 60)
+        # correct position inline to be topleft
+        position_y = positon_y_start + (total_rows * button_margin_y)
         position_x = positon_x_start
-        calculate = Button((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.calculate, "=",)
+        calculate = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (40, 180, 40), (40, 220, 40), self.calculate, "=",)
         self.addButton( calculate )
 
         # clear button
-        position_y = positon_y_start + (total_rows * 60)
-        position_x = positon_x_start + (1 * 50)
-        clear = Button((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.clearEquation, "CE",)
+        # correct position inline to be topleft
+        position_y = positon_y_start + (total_rows * button_margin_y)
+        position_x = positon_x_start + (1 * button_margin_x)
+        clear = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.clearEquation, "CE",)
         self.addButton( clear )
 
         return
@@ -248,8 +263,11 @@ class Gui:
         """Update method every frame"""
 
         # draw equation
-        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (255, 255, 255))
-        self.m_renderer.m_screen.blit( text, ( 150, 50 ) )
+        pygame.draw.rect( self.m_renderer.m_screen, (255, 255, 255), pygame.Rect(25, 75, 350, 60))
+
+
+        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (0, 0, 0))
+        self.m_renderer.m_screen.blit( text, ( 150, 85 ) )
 
         return
 

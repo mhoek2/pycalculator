@@ -42,6 +42,10 @@ class Button:
 
 class CalculatorButton(Button):
     def __init__(self, position, size, clr=[100, 100, 100], cngclr=None, func=None, symbol='', text='', font="Segoe Print", font_size=16, font_clr=[0, 0, 0]):
+       
+        # use topleft
+        position = ( ( position[0] + size[0] / 2 ), ( position[1] + size[1] / 2 ) )
+
         super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
         self.symbol = symbol
 
