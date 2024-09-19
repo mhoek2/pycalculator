@@ -388,7 +388,7 @@ class Gui:
             position_y = positon_y_start + (row * 60)
             position_x = positon_x_start + (column * 50)
 
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{i}", f"{i}")
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{i}", f"{i}")
             self.addButton( button )
 
             column += 1
@@ -405,7 +405,7 @@ class Gui:
         # for i in range(0, len( modifiers ) ):
         #     position_y = positon_y_start + (i * 60)
         #     position_x = positon_x_start + (total_columns * 50)
-        #     button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
+        #     button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
         #     self.addButton( button )         
 
         # draw extra
@@ -414,7 +414,7 @@ class Gui:
             position_y = positon_y_start + (total_rows * 60)
             position_x = positon_x_start + (i * 50)
 
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addToEquation, f"{extra[i]}", f"{extra[i]}")
+            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{extra[i]}", f"{extra[i]}")
             self.addButton( button )    
 
         total_rows += 1
