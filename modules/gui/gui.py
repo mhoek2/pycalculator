@@ -381,16 +381,16 @@ class Gui:
     #
     # guilders euros conversion
     #
-    def guilders_to_euros( self ) -> None:
+    def euros_to_guilders( self ) -> None:
         self.result = self.m_context.m_calculator.euros_guilders_conversion(self.equation)
         print( f"{self.equation} euro’s to guilders: {self.result}")
         return
-    
-    def euros_to_guilders( self ) -> None:
+
+    def guilders_to_euros( self ) -> None:
         self.result = self.m_context.m_calculator.euros_guilders_conversion(self.equation, False)
         print( f"{self.equation} guilders to euro’s: {self.result}")
         return
-
+    
     def _initGuldens( self ) -> None:
         """This gets executed when tab opens"""
 
@@ -445,13 +445,13 @@ class Gui:
         # guilders button
         position_y = positon_y_start + (0 * button_margin_y)
         position_x = positon_x_start + (total_columns * button_margin_x)
-        guilders = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.euros_to_guilders, "ƒ → €",)
+        guilders = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.euros_to_guilders, "€ → ƒ",)
         self.addButton( guilders )
 
         # euros button
         position_y = positon_y_start + (1 * button_margin_y)
         position_x = positon_x_start + (total_columns * button_margin_x)
-        euros = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.guilders_to_euros, "€ → ƒ",)
+        euros = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.guilders_to_euros, "ƒ → €",)
         self.addButton( euros )
         
         # clear button
