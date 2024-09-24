@@ -436,8 +436,8 @@ class Gui:
                 column = 0
         
         buttons = [
-            { 'function': self.euros_to_guilders, 'text': 'ƒ → €' },
-            { 'function': self.guilders_to_euros, 'text': '€ → ƒ"' },
+            { 'function': self.guilders_to_euros, 'text': 'ƒ → €' },
+            { 'function': self.euros_to_guilders, 'text': '€ → ƒ"' },
             { 'function': self.clearEquation, 'text': 'CE' }
         ]
 
