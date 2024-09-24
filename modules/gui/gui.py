@@ -227,7 +227,7 @@ class Gui:
 
     def calculate( self ) -> None:
         """Ask the calculator module to evaluate the outcome of the equation"""
-        print( f"calculate: {self.m_context.m_calculator.parse_arithmetic_string(self.equation)}")
+        print( f"calculate: {self.m_context.m_calculator.parse_equation_string(self.equation)}")
         return
 
     def _initCalculator( self ) -> None:
