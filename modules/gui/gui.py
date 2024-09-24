@@ -161,21 +161,6 @@ class Gui:
         elif self.tab_index == self.TAB_GULDENS:
             self._drawGuildersConversion()
 
-
-    #
-    # debug code
-    #
-    def _handle_key_down( self, event ) -> None:
-        """DEBUG: Handle key-down"""
-        if event.key == pygame.K_c:
-            self.openTab( self.TAB_CALCULATOR )
-
-        elif event.key == pygame.K_n:
-            self.openTab( self.TAB_NOTES )
-
-        elif event.key == pygame.K_k:
-            self.openTab( self.TAB_KOPPELCODE )
-
     def button_group_event_handler( self, event ) -> None:
         """Handle event states for mousedown on buttons"""
         if event.button == 1:
@@ -186,11 +171,7 @@ class Gui:
 
     def event_handler( self, event_list ) -> None:
         for event in event_list:
-            # used for debug code
-            if event.type == pygame.KEYDOWN:
-                self._handle_key_down( event )
-
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 # handle event for all buttons
                 self.button_group_event_handler( event )
 
@@ -227,13 +208,15 @@ class Gui:
 
     def calculate( self ) -> None:
         """Ask the calculator module to evaluate the outcome of the equation"""
-        print( f"calculate: {self.m_context.m_calculator.parse_equation_string(self.equation)}")
+        self.result = self.m_context.m_calculator.parse_equation_string(self.equation)
+        print( f"calculate: {self.result}")   
         return
 
     def _initCalculator( self ) -> None:
         """This gets executed when tab opens"""
 
         self.equation = ""
+        self.result = ""
 
         row = 0
         column = 0
@@ -254,7 +237,7 @@ class Gui:
         keypad_center = ( button_columns * button_margin_x ) / 2
 
         positon_x_start = ( self.m_renderer.m_screen_rect.width / 2 ) - keypad_center
-        positon_y_start = 200
+        positon_y_start = 250
 
 
         # draw numeric buttons
@@ -314,7 +297,10 @@ class Gui:
 
 
         text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (0, 0, 0))
-        self.m_renderer.m_screen.blit( text, ( 150, 85 ) )
+        self.m_renderer.m_screen.blit( text, ( 40, 85 ) )
+
+        text = self.m_renderer.m_font_48.render( f"{self.result}", False, (0, 0, 0))
+        self.m_renderer.m_screen.blit( text, ( 40, 150 ) )
 
         return
 
