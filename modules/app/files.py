@@ -6,7 +6,7 @@
 
 """Contains logic for file handling"""
 
-from os import path
+import os
 from pathlib import Path
 
 # sub class
@@ -29,7 +29,7 @@ class FileHandler:
 
     def __handleFilename( self ):
         """Process filename handed to self by splitting and change validity"""
-        split_path = path.split( self.full_path )
+        split_path = os.path.split( self.full_path )
 
         self.path = split_path[0]       # file path
 
@@ -44,7 +44,11 @@ class FileHandler:
 
         # create file
         if self.create and not self.getPath():
-            print( f"create: '{self.full_path}' is invalid!")
+            print( f"create: '{self.full_path}'")
+
+            # create folder structure if non-existent
+            os.makedirs( os.path.dirname(self.full_path), exist_ok=True )
+
             file = open(self.full_path, 'w')
             file.close()
 
