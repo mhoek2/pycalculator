@@ -81,7 +81,7 @@ class Calculator:
 
         # Handle empty strings
         if not equation:
-            return "Geen tekst ingevoerd"
+            return "Lege berekening"
 
         equation = self.format_equation_string(equation)
 
@@ -89,7 +89,7 @@ class Calculator:
         try:
             return self.format_arithmetic_result(ArithmeticParser().evaluate(equation))
         except:
-            return "Ongeldige berekening"
+            return "Ongeldig"
 
     def format_arithmetic_result(self, result, round_num=10):
         """Format the result of an operation."""
@@ -113,7 +113,7 @@ class Calculator:
         """
 
         if not amount:
-            return "Geen tekst ingevoerd"
+            return "Leeg bedrag"
 
         conversion_rate = 2.20371
         amount = self.parse_equation_string(amount)

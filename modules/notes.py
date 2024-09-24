@@ -25,8 +25,9 @@ class Notes:
         """Store note"""
 
         this_datetime = datetime.now()
+        length = len(data)
 
-        filename = this_datetime.strftime("note_%d_%m_%Y-%H_%M_%S")
+        filename = this_datetime.strftime(f"note_%Y_%m_%d-%H_%M_%S-{length}_characters")
 
         self.file = FileHandler( f"notes/{filename}.txt", True )
 
