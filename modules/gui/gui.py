@@ -376,32 +376,49 @@ class Gui:
     # guilders euros conversion
     #
     def guilders_to_euros( self ) -> None:
-        print( f"{self.equation} euro’s to guilders: {self.m_context.m_calculator.euros_guilders_conversion(self.equation)}")
+        self.result = self.m_context.m_calculator.euros_guilders_conversion(self.equation)
+        print( f"{self.equation} euro’s to guilders: {self.result}")
         return
     
     def euros_to_guilders( self ) -> None:
-        print( f"{self.equation} guilders to euro’s: {self.m_context.m_calculator.euros_guilders_conversion(self.equation, False)}")
+        self.result = self.m_context.m_calculator.euros_guilders_conversion(self.equation, False)
+        print( f"{self.equation} guilders to euro’s: {self.result}")
         return
 
     def _initGuldens( self ) -> None:
         """This gets executed when tab opens"""
 
         self.equation = ""
-
-        positon_x_start = 40
-        positon_y_start = 200
+        self.result = ""
 
         row = 0
         column = 0
         total_columns = 0
         total_rows = 0
 
+        button_width = 60
+        button_height = 60
+        button_margin_x = button_width + 10
+        button_margin_y = button_height + 10
+
+        self.modifier_letters = ["+", "-", "x", ":"]
+        self.modifiers = ["+", "-", "*", "/"]
+        self.extra = ["0", ".", ","]
+
+        button_columns = 4
+
+        keypad_center = ( button_columns * button_margin_x ) / 2
+
+        positon_x_start = ( self.m_renderer.m_screen_rect.width / 2 ) - keypad_center
+        positon_y_start = 250
+
+
         # draw numeric buttons
         for i in range(1,10):
-            position_y = positon_y_start + (row * 60)
-            position_x = positon_x_start + (column * 50)
+            position_y = positon_y_start + (row * button_margin_y)
+            position_x = positon_x_start + (column * button_margin_x)
 
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{i}", f"{i}")
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{i}", f"{i}")
             self.addButton( button )
 
             column += 1
@@ -413,36 +430,38 @@ class Gui:
                 column = 0
         
         # # draw modifiers
-        # button_letters = ["+", "-", "x", ":"]
-        # modifiers = ["+", "-", "*", "/"]
-        # for i in range(0, len( modifiers ) ):
-        #     position_y = positon_y_start + (i * 60)
-        #     position_x = positon_x_start + (total_columns * 50)
-        #     button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{modifiers[i]}", f"{button_letters[i]}")
+        # for i in range(0, len( self.modifiers ) ):
+        #     position_y = positon_y_start + (i * button_margin_y)
+        #     position_x = positon_x_start + (total_columns * button_margin_x)
+        #     button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addSymbolToEquation, f"{self.modifiers[i]}", f"{self.modifier_letters[i]}")
         #     self.addButton( button )         
 
-        # draw extra
-        extra = ["0", ".", ","]
-        for i in range(0, len( extra ) ):
-            position_y = positon_y_start + (total_rows * 60)
-            position_x = positon_x_start + (i * 50)
-
-            button = CalculatorButton((position_x, position_y), (40, 50), (220, 220, 220), (255, 0, 0), self.addNumberToEquation, f"{extra[i]}", f"{extra[i]}")
-            self.addButton( button )    
-
-        total_rows += 1
-
         # guilders button
-        position_y = positon_y_start + (total_rows * 60)
-        position_x = positon_x_start
-        guilders = Button((position_x, position_y), (70, 50), (220, 220, 220), (255, 0, 0), self.euros_to_guilders, "€ → ƒ",)
+        position_y = positon_y_start + (0 * button_margin_y)
+        position_x = positon_x_start + (total_columns * button_margin_x)
+        guilders = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.euros_to_guilders, "€ → ƒ",)
         self.addButton( guilders )
 
         # euros button
-        position_y = positon_y_start + (total_rows * 60)
-        position_x = positon_x_start + (1 * 80)
-        euros = Button((position_x, position_y), (70, 50), (220, 220, 220), (255, 0, 0), self.guilders_to_euros, "ƒ → €",)
+        position_y = positon_y_start + (1 * button_margin_y)
+        position_x = positon_x_start + (total_columns * button_margin_x)
+        euros = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.guilders_to_euros, "ƒ → €",)
         self.addButton( euros )
+        
+        # clear button
+        # correct position inline to be topleft
+        position_y = positon_y_start + (2 * button_margin_y)
+        position_x = positon_x_start + (total_columns * button_margin_x)
+        clear = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.clearEquation, "CE",)
+        self.addButton( clear )
+
+        # draw extra
+        for i in range(0, len( self.extra ) ):
+            position_y = positon_y_start + (total_rows * button_margin_y)
+            position_x = positon_x_start + (i * button_margin_x)
+
+            button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addSymbolToEquation, f"{self.extra[i]}", f"{self.extra[i]}")
+            self.addButton( button )    
 
         return
 
@@ -450,8 +469,14 @@ class Gui:
         """Update method every frame"""
 
         # draw equation
-        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (255, 255, 255))
-        self.m_renderer.m_screen.blit( text, ( 150, 50 ) )
+        pygame.draw.rect( self.m_renderer.m_screen, (255, 255, 255), pygame.Rect(25, 75, 350, 60))
+
+
+        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (0, 0, 0))
+        self.m_renderer.m_screen.blit( text, ( 40, 85 ) )
+
+        text = self.m_renderer.m_font_48.render( f"{self.result}", False, (0, 0, 0))
+        self.m_renderer.m_screen.blit( text, ( 40, 150 ) )
 
         return
 

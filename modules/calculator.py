@@ -4,8 +4,6 @@ from math import isclose
 
 from plusminus import ArithmeticParser
 
-locale.setlocale(locale.LC_ALL, "nl_NL.UTF-8")
-
 
 class Calculator:
     """Contains methods and variables used for the calculator"""
@@ -19,8 +17,6 @@ class Calculator:
         self.m_gui = context.m_gui
 
         print("Calculator init")
-        print("2 + 4,000.88 - 5.24 / 3.948,23 * 4,1234")
-        print(self.format_equation_string("2 + 4,000.88 - 5.24 / 3.948,23 * 4,1234"))
 
     # Example on how to call functions from other modules:
     # self.m_context.m_gui.functionName()
@@ -31,7 +27,7 @@ class Calculator:
     def update(self) -> None:
         return
 
-    def format_number_string(self, string):
+    def format_number_string(self, number_string: str):
         """
         Parse strings containing numbers with periods and/or commas.
         The below code tries to determine which style a number is using
@@ -42,41 +38,33 @@ class Calculator:
         """
 
         # If the string matches European format (comma as decimal separator)
-        if re.match(r"^\d{1,3}(\.\d{3})*(,\d+)?$", string):
+        if re.match(r"^\d{1,3}(\.\d{3})*(,\d+)?$", number_string):
             # European format: Replace periods (thousands) with nothing, and comma (decimal) with dot
-            string = string.replace(".", "").replace(",", ".")
+            number_string = number_string.replace(".", "").replace(",", ".")
 
         # If the string matches US format (period as decimal separator)
-        elif re.match(r"^\d{1,3}(,\d{3})*(\.\d+)?$", string):
+        elif re.match(r"^\d{1,3}(,\d{3})*(\.\d+)?$", number_string):
             # US format: Remove commas (thousands) and keep period as decimal separator
-            string = string.replace(",", "")
+            number_string = number_string.replace(",", "")
 
-        # Handle cases where there is only one separator type (comma or period)
-        elif "," in string and "." not in string:
-            # Only comma exists - assume it's a decimal separator if there are two or fewer digits after it
-            if len(string.split(",")[1]) <= 2:
-                string = string.replace(",", ".")  # Treat as decimal separator
-            else:
-                string = string.replace(
-                    ",", ""
-                )  # Treat as thousands separator and remove it
+        # Handle any other cases
+        elif any(i in number_string for i in ",."):
+            sep_count = len(re.findall(r"[,.]", number_string))
+            split_number_string = re.split(r"[,.]+", number_string)
 
-        elif "." in string and "," not in string:
-            # Only period exists - assume it's a thousands separator if there are exactly three digits after it
-            if len(string.split(".")[1]) != 3:
-                pass  # Already in the correct format (period as decimal)
-            else:
-                string = string.replace(
-                    ".", ""
-                )  # Treat as thousands separator and remove it
+            if len(split_number_string[-1]) != 3 or sep_count == 1:
+                if sep_count > 1:
+                    sep_count -= 1
+                elif sep_count == 1:
+                    sep_count = -1
 
-        return string
+            number_string = re.sub(r"[,.]+", "", number_string, sep_count).replace(
+                ",", "."
+            )
+        return number_string
 
     def format_equation_string(self, equation: str):
         """Convert numbers in the equation to standardized format with dots as decimal separators."""
-
-        # Regex to find all numbers with possible commas and periods
-        number_pattern = r"[\d.,]+"
 
         # Function to replace each found number with the converted float-like string
         def replace_number(match):
@@ -84,16 +72,24 @@ class Calculator:
             return str(self.format_number_string(num_str))
 
         # Replace all numbers in the equation with properly formatted strings
-        cleaned_equation = re.sub(number_pattern, replace_number, equation)
+        cleaned_equation = re.sub(r"[\d.,]+", replace_number, equation)
 
         return cleaned_equation
 
     def parse_equation_string(self, equation: str):
         """This function parses a string containing arithmetic functions."""
 
+        # Handle empty strings
+        if not equation:
+            return "Geen tekst ingevoerd"
+
         equation = self.format_equation_string(equation)
 
-        return self.format_arithmetic_result(ArithmeticParser().evaluate(equation))
+        # Handle any errors that may occur while parsing an equation
+        try:
+            return self.format_arithmetic_result(ArithmeticParser().evaluate(equation))
+        except:
+            return "Ongeldige berekening"
 
     def format_arithmetic_result(self, result, round_num=10):
         """Format the result of an operation."""
@@ -103,9 +99,11 @@ class Calculator:
         return round(result, round_num)
 
     def format_currency_result(self, amount, guilders: bool = True):
+        """Format the result of a currency conversion."""
         if guilders:
             return f"ƒ {amount:,.2f}".replace(",", ".")[::-1].replace(".", ",", 1)[::-1]
         else:
+            locale.setlocale(locale.LC_ALL, "nl_NL.UTF-8")
             return locale.currency(amount, grouping=True)
 
     def euros_guilders_conversion(self, amount, to_guilders: bool = True):
@@ -113,6 +111,9 @@ class Calculator:
         Convert euros to dutch guilders. Exchange rate from
         https://www.dnb.nl/en/payments/exchanging-guilder-banknotes/.
         """
+
+        if not amount:
+            return "Geen tekst ingevoerd"
 
         conversion_rate = 2.20371
         amount = self.parse_equation_string(amount)
@@ -122,3 +123,12 @@ class Calculator:
 
         else:
             return self.format_currency_result(amount / conversion_rate, False)
+
+    def print_formatted_equations_test(self, equations):
+        """
+        Print each equation (and, by extension, equation) along with its parsed value,
+        after being processed by format_equation_string.
+        """
+        for equation in equations:
+            parsed_equation = self.format_equation_string(equation)
+            print(f"Original: {equation} -> Parsed: {parsed_equation}")
