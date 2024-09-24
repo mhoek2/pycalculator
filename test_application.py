@@ -52,3 +52,12 @@ def test_koppelcode( app_instance ):
 
     # check if number of letter matches the requested amount of letters
     assert( len(code) == num_letters )
+
+def test_calculator( app_instance ):
+    """Test calculator methods"""
+    assert( app_instance.m_calculator.parse_equation_string( "1+1" ) == 2 )
+    assert( app_instance.m_calculator.parse_equation_string( "2*2" ) == 4 )
+    assert( app_instance.m_calculator.parse_equation_string( "4/2" ) == 2 )
+    assert( app_instance.m_calculator.parse_equation_string( "2-1" ) == 1 )
+    assert( app_instance.m_calculator.parse_equation_string( "0.1+0.1" ) == 0.2 )
+    assert( app_instance.m_calculator.parse_equation_string( "100-0.05" ) == 99.95 )
