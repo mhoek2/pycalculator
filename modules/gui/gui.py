@@ -435,31 +435,17 @@ class Gui:
                 total_rows += 1
                 column = 0
         
-        # # draw modifiers
-        # for i in range(0, len( self.modifiers ) ):
-        #     position_y = positon_y_start + (i * button_margin_y)
-        #     position_x = positon_x_start + (total_columns * button_margin_x)
-        #     button = CalculatorButton((position_x, position_y), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.addSymbolToEquation, f"{self.modifiers[i]}", f"{self.modifier_letters[i]}")
-        #     self.addButton( button )         
+        buttons = [
+            { 'function': self.euros_to_guilders, 'text': 'ƒ → €' },
+            { 'function': self.guilders_to_euros, 'text': '€ → ƒ"' },
+            { 'function': self.clearEquation, 'text': 'CE' }
+        ]
 
-        # guilders button
-        position_y = positon_y_start + (0 * button_margin_y)
-        position_x = positon_x_start + (total_columns * button_margin_x)
-        guilders = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.euros_to_guilders, "ƒ → €",)
-        self.addButton( guilders )
-
-        # euros button
-        position_y = positon_y_start + (1 * button_margin_y)
-        position_x = positon_x_start + (total_columns * button_margin_x)
-        euros = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.guilders_to_euros, "€ → ƒ",)
-        self.addButton( euros )
-        
-        # clear button
-        # correct position inline to be topleft
-        position_y = positon_y_start + (2 * button_margin_y)
-        position_x = positon_x_start + (total_columns * button_margin_x)
-        clear = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), self.clearEquation, "CE",)
-        self.addButton( clear )
+        for i in range(0, len( buttons ) ):
+            position_y = positon_y_start + (i * button_margin_y)
+            position_x = positon_x_start + (total_columns * button_margin_x)
+            button = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), buttons[i]['function'], buttons[i]['text'],)
+            self.addButton( button )
 
         # draw extra
         for i in range(0, len( self.extra ) ):
