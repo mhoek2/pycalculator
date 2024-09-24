@@ -347,7 +347,9 @@ class Gui:
 
     def _initNotes( self ) -> None:
         """This gets executed when tab opens"""
-        self.note = TextInput(25, 75, 350, self.m_renderer.m_font_48)
+        self.note_max_chars = 15
+
+        self.note = TextInput(25, 75, 350, self.m_renderer.m_font_48, max_chars=self.note_max_chars )
         self.addTextInput( self.note )
 
         button = Button((200, 200), (100, 50), (220, 220, 220), (255, 0, 0), self.saveNote, 'Opslaan')
@@ -356,10 +358,14 @@ class Gui:
 
     def _drawNotes( self ) -> None:
         """Update method every frame"""
+        
+        if self.note_max_chars > 0:
+            text = self.m_renderer.m_font_16.render( f"{len(self.note.text)}/{self.note_max_chars}", False, (255, 255, 255))
+            self.m_renderer.m_screen.blit( text, ( 325, 150 ) )
 
         return
 
-    def getNote( self ) -> None:
+    def getNote( self ) -> str:
         """Return text in note input field"""
         return self.note.text
 
