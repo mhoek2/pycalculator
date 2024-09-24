@@ -108,8 +108,9 @@ class Calculator:
 
     def euros_guilders_conversion(self, amount, to_guilders: bool = True):
         """
-        Convert euros to dutch guilders. Exchange rate from
+        Convert euros to Dutch guilders. Exchange rate from
         https://www.dnb.nl/en/payments/exchanging-guilder-banknotes/.
+        Assume a conversion is being done from euros to guilders by default.
         """
 
         if not amount:

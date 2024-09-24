@@ -381,16 +381,16 @@ class Gui:
     #
     # guilders euros conversion
     #
-    def guilders_to_euros( self ) -> None:
+    def euros_to_guilders( self ) -> None:
         self.result = self.m_context.m_calculator.euros_guilders_conversion(self.equation)
         print( f"{self.equation} euro’s to guilders: {self.result}")
         return
-    
-    def euros_to_guilders( self ) -> None:
+
+    def guilders_to_euros( self ) -> None:
         self.result = self.m_context.m_calculator.euros_guilders_conversion(self.equation, False)
         print( f"{self.equation} guilders to euro’s: {self.result}")
         return
-
+    
     def _initGuldens( self ) -> None:
         """This gets executed when tab opens"""
 
@@ -434,7 +434,7 @@ class Gui:
                 total_columns += 1
                 total_rows += 1
                 column = 0
-        
+                
         buttons = [
             { 'function': self.euros_to_guilders, 'text': 'ƒ → €' },
             { 'function': self.guilders_to_euros, 'text': '€ → ƒ"' },
@@ -446,7 +446,7 @@ class Gui:
             position_x = positon_x_start + (total_columns * button_margin_x)
             button = Button((position_x + ( button_width/2), position_y + ( button_height/2)), (button_width, button_height), (220, 220, 220), (255, 0, 0), buttons[i]['function'], buttons[i]['text'],)
             self.addButton( button )
-
+        
         # draw extra
         for i in range(0, len( self.extra ) ):
             position_y = positon_y_start + (total_rows * button_margin_y)
