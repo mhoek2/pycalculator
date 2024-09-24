@@ -9,6 +9,7 @@ class Renderer:
     m_screen            : pygame.Surface
     m_screen_rect       : pygame.Rect
     m_font_16           : Font
+    m_font_24           : Font
     m_font_48           : Font
 
     def __init__( self, context ) -> None:
@@ -17,6 +18,7 @@ class Renderer:
 
         pygame.font.init()
         self.m_font_16 = pygame.font.SysFont('Calibri', 16)
+        self.m_font_24 = pygame.font.SysFont('Calibri', 24)
         self.m_font_48 = pygame.font.SysFont('Calibri', 48)
 
     def create_screen_instance( self ) -> None:

@@ -293,13 +293,27 @@ class Gui:
     def _drawCalculator( self ) -> None:
         """Update method every frame"""
 
-        # draw equation
-        pygame.draw.rect( self.m_renderer.m_screen, (255, 255, 255), pygame.Rect(25, 75, 350, 60))
+        # draw equation background
+        background_rect = pygame.Rect(25, 75, 350, 60)
+        pygame.draw.rect( self.m_renderer.m_screen, (255, 255, 255), background_rect )
 
+        # equation value
+        resize_len_threshold = 14   # how many characters before font is stepped down
 
-        text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (0, 0, 0))
-        self.m_renderer.m_screen.blit( text, ( 40, 85 ) )
+        if len( self.equation ) > resize_len_threshold:
+            text = self.m_renderer.m_font_24.render( f"{self.equation}", False, (0, 0, 0))
+            coords_y = 95
+        else:
+            text = self.m_renderer.m_font_48.render( f"{self.equation}", False, (0, 0, 0))
+            coords_y = 85
 
+        # begin drawing on the right side
+        text_rect = text.get_rect()
+        coords_x = background_rect.right - text_rect.width
+
+        self.m_renderer.m_screen.blit( text, ( coords_x, coords_y ) )
+
+        # result
         text = self.m_renderer.m_font_48.render( f"{self.result}", False, (0, 0, 0))
         self.m_renderer.m_screen.blit( text, ( 40, 150 ) )
 
