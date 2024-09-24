@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 
 class TextInput( Sprite ):
     """Text input"""
-    def __init__( self, x, y, w, font ):
+    def __init__( self, x, y, w, font, max_chars=-1 ):
         super().__init__()
         self.color = (0, 0, 0)
         self.backcolor = (255, 255, 255)
@@ -13,6 +13,7 @@ class TextInput( Sprite ):
         self.active = False
         self.text = ""
         self.render()
+        self.max_chars = max_chars
 
     def reset( self ) -> None:
         self.text = ""
@@ -37,5 +38,6 @@ class TextInput( Sprite ):
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
-                    self.text += event.unicode
+                    if self.max_chars <= 0 or len( self.text ) < self.max_chars:
+                        self.text += event.unicode
                 self.render()
