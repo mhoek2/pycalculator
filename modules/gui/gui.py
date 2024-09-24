@@ -189,16 +189,17 @@ class Gui:
         """Add a modifier or '.', ',' symbol to te equation
         Also prevent starting with zero digit"""
         if len( self.equation ) > 0:
-            # check for modifiers
-            if self.equation[-1] in self.modifiers:
-                return
+            # check if last symbol in equation is
+            # modifier or '.', ',', 
+            # (skipping '0' using [1:] allows consecutive '0')
+            if self.equation[-1] in self.modifiers + self.extra[1:]:
+                if symbol not in ["0"]: # allow '0' to be added after modifier
+                    return
 
-            # check for '.', ',', skip '0'
-            if self.equation[-1] in self.extra[1:]:
+        # start of the equation
+        else: 
+            if symbol not in ["0", "-"]:
                 return
-        else:
-            # none are allowed at the start of the equation
-            return
 
         self.equation += symbol
 
